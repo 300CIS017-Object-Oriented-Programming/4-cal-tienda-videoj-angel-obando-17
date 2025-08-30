@@ -163,6 +163,10 @@ double calcularSubtotalCarrito( const int codigos[ ], const int cantidades[ ], i
 }
 
 void vaciarCarrito( int codigos[ ], int cantidades[ ], int &cantidadJuegosRegistrados ) {
+    if( cantidadJuegosRegistrados == 0 ) {
+        cout << "El carrito ya esta vacio.\n\n";
+        return;
+    }
     for( int i = 0; i < cantidadJuegosRegistrados; i++ ) {
         codigos[ i ] = 0;
         cantidades[ i ] = 0;
