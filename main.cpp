@@ -12,8 +12,9 @@ void mostrarMenuPrincipal( ) {
     cout << "\n====== GAME - STORE - Menu Principal ======\n";
     cout << "1. Mostrar Catalogo de productos\n";
     cout << "2. Añadir producto al carrito\n";
-    cout << "3. Ver resumen del pedido\n";
-    cout << "4. Finalizar y pagar\n";
+    cout << "3. Vaciar carrito\n";
+    cout << "4. Ver resumen del pedido\n";
+    cout << "5. Finalizar y pagar\n";
     cout << "0. Salir\n";
     cout << "Seleccione una opcion:  ";
 }
@@ -38,6 +39,10 @@ int main( ) {
                 break;
             }
             case 3: {
+                vaciarCarrito( codigos, cantidades, cantidadItems );
+                break;
+            }
+            case 4: {
                 cout << "======== RESUMEN DEL PEDIDO ========" << "\n\n";
                 for( int i = 0; i < cantidadItems; i++ ) {
                     int precioUnitario = obtenerPrecioJuego( codigos[ i ] );
@@ -47,7 +52,7 @@ int main( ) {
                 cout << "\nSubtotal:  $" << fixed << setprecision( 2 ) << subtotal << "\n\n";
                 break;
             }
-            case 4: {
+            case 5: {
                 if( cantidadItems == 0 ) {
                     cout << "El carrito esta vacio.\n\n";
                     break;
@@ -58,7 +63,7 @@ int main( ) {
                 double descuentosAdicionales = calcularDescuentosAdicionales( codigos, cantidades, cantidadItems );
                 mostrarResumenCompra( codigos, cantidades, cantidadItems, porcentajeDescuento, descuentosAdicionales );
                 double total = calcularTotalFinal( subtotal, porcentajeDescuento, descuentosAdicionales );
-                cout << "\n\n TOTAL A PAGAR: " << fixed << setprecision( 2 ) << total << "\n\n";
+                cout << "\n\nTOTAL A PAGAR: " << fixed << setprecision( 2 ) << total << "\n\n";
                 break;
             }
             case 0:

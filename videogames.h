@@ -40,6 +40,7 @@ string obtenerPlataforma( int codigoJuego );
 string obtenerCategoria( int codigoJuego );
 void agregarJuegoAlCarrito( int codigos[ ], int cantidades[ ], int &cantidadJuegosRegistrados );
 double calcularSubtotalCarrito( const int codigos[ ], const int cantidades[ ], int cantidadJuegosRegistrados );
+void vaciarCarrito( int codigos[ ], int cantidades[ ], int &cantidadJuegosRegistrados );
 int leerTipoCliente( );
 double obtenerPorcentajeDescuento( int tipoCliente );
 double calcularDescuentosAdicionales( const int codigos[ ], const int cantidades[ ], int cantidadJuegosRegistrados );

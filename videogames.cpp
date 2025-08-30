@@ -99,6 +99,7 @@ string obtenerNombreJuego( int codigoJuego ) {
         return catalogo[ codigoJuego - 1 ].nombre;
     } else {
         cout << "Codigo Invalido" << endl;
+        return "";
     }
 }
 
@@ -107,6 +108,7 @@ int obtenerPrecioJuego( int codigoJuego ) {
         return catalogo[ codigoJuego - 1 ].precio;
     } else {
         cout << "Codigo Invalido" << endl;
+        return 0;
     }
 }
 
@@ -115,6 +117,7 @@ string obtenerPlataforma( int codigoJuego ) {
         return catalogo[ codigoJuego - 1 ].plataforma;
     } else {
         cout << "Codigo Invalido" << endl;
+        return "";
     }
 }
 
@@ -123,6 +126,7 @@ string obtenerCategoria( int codigoJuego ) {
         return catalogo[ codigoJuego - 1 ].categoria;
     } else {
         cout << "Codigo Invalido" << endl;
+        return "";
     }
 }
 
@@ -156,6 +160,15 @@ double calcularSubtotalCarrito( const int codigos[ ], const int cantidades[ ], i
         subtotal += precioUnitario * cantidades[ i ];   
     }
     return subtotal;
+}
+
+void vaciarCarrito( int codigos[ ], int cantidades[ ], int &cantidadJuegosRegistrados ) {
+    for( int i = 0; i < cantidadJuegosRegistrados; i++ ) {
+        codigos[ i ] = 0;
+        cantidades[ i ] = 0;
+    }
+    cantidadJuegosRegistrados = 0;
+    cout << "Se vacio el carrito.\n\n";
 }
 
 int leerTipoCliente( ) {
