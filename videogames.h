@@ -16,6 +16,7 @@ struct juego {
     double precio;
 };
 
+//Declarado con extern para que no haya problemas con la inializacion de la estructura
 extern juego catalogo[ GAMES ];
 
 //Descuentos

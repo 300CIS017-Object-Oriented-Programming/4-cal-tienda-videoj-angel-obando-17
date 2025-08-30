@@ -115,4 +115,42 @@ string obtenerPlataforma( int codigoJuego ) {
     }
 }
 
+string obtenerCategoria( int codigoJuego ) {
+    if( codigoJuego > 0 || codigoJuego < 13 ) {
+        return catalogo[ codigoJuego - 1 ].categoria;
+    } else {
+        cout << "Codigo Invalido" << endl;
+    }
+}
 
+void agregarJuegoAlCarrito( int codigos[ ], int cantidades[ ], int &cantidadJuegosRegistrados ) {
+    if( cantidadJuegosRegistrados >= MAX_ITEMS ) {
+        cout << "Ups! El carrito esta lleno" << endl;
+        return;
+    }
+    int codigo, cantidad;
+    codigo = leerCodigoJuego( );
+    cantidad = leerCantidadJuego( );
+    for( int i = 0; i < cantidadJuegosRegistrados; i++ ) {
+        if( codigos[ i ] == codigo ) {
+            cantidades[ i ] += cantidad;
+            cout << "Producto Actualizado: " << obtenerNombreJuego( codigo ) << " x " << cantidades[ i ] << " ( Cantidad Acumulada )" << endl;
+            return;
+        }
+    }
+
+    codigos[ cantidadJuegosRegistrados ] = codigo;
+    cantidades[ cantidadJuegosRegistrados ] = cantidad;
+    cantidadJuegosRegistrados++;
+
+    cout << "Producto Agregado: " << obtenerNombreJuego( codigo ) << " x " << cantidad << "\n" << endl;
+}
+
+double calcularSubtotalCarrito( const int codigos[ ], const int cantidades[ ], int cantidadJuegosRegistrados ) {
+    double subtotal = 0.0;
+    for( int i = 0; i < cantidadJuegosRegistrados; i++ ) {
+        int precioUnitario = obtenerPrecioJuego( codigos[ i ] );
+        subtotal += precioUnitario * cantidades[ i ];   
+    }
+    return subtotal;
+}
