@@ -38,16 +38,29 @@ int main( ) {
                 break;
             }
             case 3: {
-                cout << "====== RESUMEN DEL PEDIDO ======" << "\n\n";
+                cout << "======== RESUMEN DEL PEDIDO ========" << "\n\n";
                 for( int i = 0; i < cantidadItems; i++ ) {
-                    cout << obtenerNombreJuego( codigos[ i ] ) << " x " << cantidades[ i ] << endl;
+                    int precioUnitario = obtenerPrecioJuego( codigos[ i ] );
+                    cout << obtenerNombreJuego( codigos[ i ] ) << " x " << cantidades[ i ] << "   $" << precioUnitario * cantidades[ i ] << endl;
                 }
                 double subtotal = calcularSubtotalCarrito( codigos, cantidades, cantidadItems );
                 cout << "\nSubtotal:  $" << fixed << setprecision( 2 ) << subtotal << "\n\n";
                 break;
             }
-            case 4:
+            case 4: {
+                if( cantidadItems == 0 ) {
+                    cout << "El carrito esta vacio.\n\n";
+                    break;
+                }
+                double subtotal = calcularSubtotalCarrito( codigos, cantidades, cantidadItems );
+                int tipoCliente = leerTipoCliente( );
+                double porcentajeDescuento = obtenerPorcentajeDescuento( tipoCliente );
+                double descuentosAdicionales = calcularDescuentosAdicionales( codigos, cantidades, cantidadItems );
+                mostrarResumenCompra( codigos, cantidades, cantidadItems, porcentajeDescuento, descuentosAdicionales );
+                double total = calcularTotalFinal( subtotal, porcentajeDescuento, descuentosAdicionales );
+                cout << "\n\n TOTAL A PAGAR: " << fixed << setprecision( 2 ) << total << "\n\n";
                 break;
+            }
             case 0:
                 cout << "Saliendo del Menu Principal..." << endl;
                 break;

@@ -1,9 +1,12 @@
 #include <iostream>
+#include <iomanip>
 #include "videogames.h"
 
 using std::cout;
 using std::endl;
 using std::cin;
+using std::fixed;
+using std::setprecision;
 
 juego catalogo[ GAMES ] = { { 1,  "Grand Theft Auto V   ", "( PC )    ", "[ Accion ]    ", 79156 }, 
                             { 2,  "God Of War ( 2018 )  ", "( PS5 )   ", "[ Accion ]    ", 184000 },
@@ -153,4 +156,78 @@ double calcularSubtotalCarrito( const int codigos[ ], const int cantidades[ ], i
         subtotal += precioUnitario * cantidades[ i ];   
     }
     return subtotal;
+}
+
+int leerTipoCliente( ) {
+    int opcion;
+    cout << "SELECCIONE SU MEMBRESIA\n" << endl;
+    cout << "1. ORO" << endl;
+    cout << "2. PLATA" << endl;
+    cout << "3. REGULAR" << endl;
+    cin >> opcion; 
+    while( opcion < 1 || opcion > 3 ) {
+        cout << "Opcion No Valida. Ingrese de nuevo ( 1 - 3 )" << endl;
+        cin.clear( );
+        cin.ignore(10000, '\n' );
+        cin >> opcion;
+
+    }
+    return opcion;
+}
+
+double obtenerPorcentajeDescuento( int tipoCliente ) {
+    if( tipoCliente == 1 ) {
+        return OFF_ORO;
+    }
+    if( tipoCliente == 2 ) {
+        return OFF_PLATA;
+    }
+    return OFF_REGULAR;
+}
+
+double calcularDescuentosAdicionales( const int codigos[ ], const int cantidades[ ], int cantidadJuegosRegistrados ) {
+    int ps5, pc, xbox, switch_;
+    for( int i = 0; i < cantidadJuegosRegistrados; i++ ) {
+        if( catalogo[ codigos[ i ] - 1 ].plataforma == "( PS5 )   " ) {
+            ps5 += cantidades[ i ];
+        }
+        if( catalogo[ codigos[ i ] - 1 ].plataforma == "( PC )    " ) {
+            pc += cantidades[ i ];
+        }
+        if( catalogo[ codigos[ i ] - 1 ].plataforma == "( XBOX )  " ) {
+            xbox += cantidades[ i ];
+        }
+        if( catalogo[ codigos[ i ] - 1 ].plataforma == "( Switch )" ) {
+            switch_ += cantidades[ i ];
+        }
+    }
+    if( ps5 >= 2 && xbox < 5 && pc < 3 ) {
+        return OFF_PS5;
+    }
+    if( xbox >= 5 && ps5 < 2 && pc < 3 ) {
+        return OFF_XBOX;
+    } 
+    if( pc >= 3 && ps5 < 2 && xbox < 5 ) {
+        return OFF_PC;
+    }
+
+    return 0.0;
+}
+
+double calcularTotalFinal( double subtotal, double porcentajeDescuento, double descuentosAdicionales ) {
+    double desucentoTotal = porcentajeDescuento + descuentosAdicionales;
+    double total = subtotal * ( 1.0 - desucentoTotal );
+    return total;
+}
+
+void mostrarResumenCompra( const int codigos[ ], const int cantidades[ ], int cantidadJuegosRegistrados, double porcentajeDescuento, double descuentosAdicionales ) {
+    cout << "======== RESUMEN DEL PEDIDO ========" << "\n\n";
+    for( int i = 0; i < cantidadJuegosRegistrados; i++ ) {
+        int precioUnitario = obtenerPrecioJuego( codigos[ i ] );
+        cout << obtenerNombreJuego( codigos[ i ] ) << " x " << cantidades[ i ] << "   $" << precioUnitario * cantidades[ i ] << endl;
+    }
+    double subtotal = calcularSubtotalCarrito( codigos, cantidades, cantidadJuegosRegistrados );
+    cout << "\nSubtotal:  $" << fixed << setprecision( 2 ) << subtotal << "  ( Sin descuentos )\n\n";
+    double total = calcularTotalFinal( subtotal, porcentajeDescuento, descuentosAdicionales );
+    cout << "\nTotal:     $" << fixed << setprecision( 2 ) << total << "  ( Con descuentos )\n\n";
 }
